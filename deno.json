@@ -1,0 +1,24 @@
+{
+	"name": "@smujdev/fresh-reroute",
+	"version": "0.1.0",
+	"license": "MIT",
+	"exports": {
+		".": "./src/mod.ts"
+	},
+	"publish": {
+		"include": [
+			"readme.md",
+			"src/**/*.ts"
+		]
+	},
+	"fmt": {
+		"singleQuote": true,
+		"useTabs": true
+	},
+	"imports": {
+		"@/": "./src/",
+		"@std/expect": "jsr:@std/expect@^1.0.17",
+		"@std/http": "jsr:@std/http@^1.0.22",
+		"@std/testing": "jsr:@std/testing@^1.0.16"
+	}
+}
