@@ -23,7 +23,7 @@ export interface Opts {
 export function fixTrailingSlash(
 	pathname: string,
 	opt: undefined | boolean = undefined,
-) {
+): string {
 	if (typeof opt !== 'boolean') return pathname;
 
 	pathname = pathname.replace(/\/+$/, '');
