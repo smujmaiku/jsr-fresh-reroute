@@ -17,16 +17,33 @@ export type Callback<S> = (
 	ctx: Context<S>,
 ) => Promise<CallbackRes> | CallbackRes;
 
+export interface Opts {
+	trailingSlash?: boolean;
+}
+
+export function fixTrailingSlash(
+	pathname: string,
+	opt: undefined | boolean = undefined,
+) {
+	if (typeof opt !== 'boolean') return pathname;
+
+	pathname = pathname.replace(/\/+$/, '');
+	if (opt === false) return pathname;
+
+	return `${pathname}/`;
+}
+
 export function reroute<S, A extends App, C extends Context<S>>(
 	app: A,
 	cb: Callback<S>,
+	opts?: Opts,
 ): (ctx: C) => Promise<Response> {
 	return async (ctx: C): Promise<Response> => {
 		const pathname = await cb(ctx);
 		if (pathname instanceof Response) return pathname;
 
 		const url = new URL(ctx.req.url);
-		url.pathname = pathname;
+		url.pathname = fixTrailingSlash(pathname, opts?.trailingSlash);
 
 		return app.handler()(new Request(url, ctx.req));
 	};
